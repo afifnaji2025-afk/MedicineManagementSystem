@@ -1,0 +1,175 @@
+
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .dashboard-card {
+        border-radius: 0px;
+        transition: 0.3s;
+        min-height: 110px;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon-circle {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .welcome-banner {
+        background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+        color: white;
+        border-radius: 15px;
+        padding: 25px;
+    }
+
+    .box-style {
+        background: #ffffff;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+</style>
+
+<div class="welcome-banner mb-4 shadow">
+    <h3 class="mb-1">
+        <i class="fas fa-clinic-medical me-2"></i>
+        Pharmacy Admin Dashboard
+    </h3>
+    <!-- <p class="mb-0">      Manage medicines, suppliers, sales & reports efficiently.</p> -->
+</div>
+
+<div class="row g-4">
+
+    <!-- Total Medicines -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'manage_medicine' %}" class="text-decoration-none">
+            <div class="card text-white bg-primary dashboard-card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>{{ total_medicines }}</h4>
+                        <p class="mb-0">Total Medicines</p>
+                    </div>
+                    <div class="icon-circle">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Suppliers -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'manage_supplier' %}" class="text-decoration-none">
+            <div class="card text-white bg-success dashboard-card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>{{ total_suppliers }}</h4>
+                        <p class="mb-0">Suppliers</p>
+                    </div>
+                    <div class="icon-circle">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Today's Sales -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'sales_history' %}" class="text-decoration-none">
+            <div class="card text-white bg-warning dashboard-card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>{{ total_today_sales }} tk</h4>
+                        <p class="mb-0">Today's Sales</p>
+                    </div>
+                    <div class="icon-circle">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Expired Medicines -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{% url 'expired_medicine' %}" class="text-decoration-none">
+            <div class="card text-white bg-danger dashboard-card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>{{ total_expired_batches }}</h4>
+                        <p class="mb-0">Expired Medicines</p>
+                    </div>
+                    <div class="icon-circle">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+
+
+<!-- Weekly Sales Overview -->
+<div class="box-style mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h5>Total Sale</h5>
+        <small>Weekly</small>
+    </div>
+
+    <canvas id="weeklyChart" height="100"></canvas>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+
+    new Chart(weeklyCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ weekly_labels|safe }},
+            datasets: [{
+                label: 'Sales',
+                data: {{ weekly_data|safe }},
+                backgroundColor: [
+                    '#4e73df','#4e73df','#4e73df',
+                    '#000000',  // Thursday highlight (like your image)
+                    '#4e73df','#4e73df','#4e73df'
+                ],
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
+{% endblock %}
+

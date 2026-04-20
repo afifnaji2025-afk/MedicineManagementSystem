@@ -1,0 +1,46 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-3">
+        <i class="fas fa-history text-primary"></i> Purchase History
+    </h3>
+
+    <div class="table-responsive card shadow p-4">
+        <table class="table table-bordered table-hover text-nowrap">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Company Name</th>
+                    <th>Medicine</th>
+                    <th>Batch No</th>
+                    <th>Quantity</th>
+                    <th>Exp. Date</th>
+                    <th>Buy Price</th>
+                    <th>Purchase Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in purchases %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ p.supplier.company_name }}</td>
+                        <td>{{ p.medicine.medicine_name }}</td>
+                        <td>{{ p.batch_no }}</td>
+                        <td>{{ p.quantity }}</td>   
+                        <td>{{ p.expiry_date }}</td>
+                        <td>{{ p.buy_price }}</td>
+                        <td>{{ p.purchase_date }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">No purchases found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

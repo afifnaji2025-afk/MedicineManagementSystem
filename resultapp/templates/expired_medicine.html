@@ -1,0 +1,57 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3 class="mb-4 text-danger">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        Expired Medicines (Batches)
+    </h3>
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-danger">
+                <tr>
+                    <th>S.No</th>
+                    <th>Medicine Name</th>
+                    <th>Company Name</th>
+                    <th>Batch No</th>
+                    <th>Expiry Date</th>
+                    <th>Stock Left</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for b in expired_batches %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ b.medicine.medicine_name }}</td>
+                    <td>{{ b.medicine.company_name }}</td>
+                    <td>{{ b.batch_no }}</td>
+                    <td class="text-danger fw-bold">
+                        {{ b.expiry_date }}
+                    </td>
+                    <td>
+                        {{ b.quantity }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        No expired medicines found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

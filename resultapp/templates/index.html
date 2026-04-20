@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.feature-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    transition: 0.3s;
+}
+
+.feature-card:hover .feature-icon {
+    transform: rotate(10deg);
+}
+</style>
+
+
+<header class="py-5 bg-primary text-white shadow-sm">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">Pharmacy Management System</h1>
+        <p class="lead mb-0">
+            Manage and view pharmacy information efficiently.
+        </p>
+    </div>
+</header>
+
+
+
+<section class="py-5 bg-light">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">System Features</h2>
+            <p class="text-muted">
+                Simple, secure and efficient pharmacy management.
+            </p>
+        </div>
+
+        <div class="row text-center g-4">
+
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm h-100 p-4">
+                    <i class="fas fa-pills fa-3x text-primary mb-3 feature-icon"></i>
+                    <h5 class="fw-bold">Medicine Management</h5>
+                    <p class="text-muted small">
+                        Add, update and manage medicines easily.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm h-100 p-4">
+                    <i class="fas fa-chart-line fa-3x text-success mb-3 feature-icon"></i>
+                    <h5 class="fw-bold">Sales Management</h5>
+                    <p class="text-muted small">
+                        Track sales and monitor daily transactions.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm h-100 p-4">
+                    <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3 feature-icon"></i>
+                    <h5 class="fw-bold">Expiry Control</h5>
+                    <p class="text-muted small">
+                        Monitor expired and low stock medicines.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

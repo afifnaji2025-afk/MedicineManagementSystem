@@ -1,0 +1,66 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3 class="mb-3">Manage Customers</h3>
+
+
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags }}{% endif %} alert-dismissible fade show">
+                {{ m }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th width="180">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><strong>{{ customer.name }}</strong></td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.email|default:"-" }}</td>
+                <td>{{ customer.address|default:"-" }}</td>
+
+                <td>
+                    <a href="{% url 'edit_customer' customer.id %}" 
+                       class="btn btn-sm btn-primary">
+                       Edit
+                    </a>
+
+                    <a href="{% url 'delete_customer' customer.id %}" 
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('Delete this customer?')">
+                       Delete
+                    </a>
+                </td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">
+                    No customers found
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

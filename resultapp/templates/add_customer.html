@@ -1,0 +1,13 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Add Customer</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+    </form>
+</div>
+{% endblock %}

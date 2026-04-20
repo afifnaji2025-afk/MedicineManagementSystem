@@ -1,0 +1,42 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Purchase Report</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Supplier</th>
+                <th>Medicine</th>
+                <th>Quantity</th>
+                <th>Buy Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in purchases %}
+            <tr>
+                <td>{{ p.purchase_date }}</td>
+                <td>{{ p.supplier }}</td>
+                <td>{{ p.medicine }}</td>
+                <td>{{ p.quantity }}</td>
+                <td>{{ p.buy_price }}</td>
+                <td>{{ p.total }}</td> <!-- ✅ correct -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-danger">
+                    No Purchase Data ❌
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h5>Total Purchase: {{ total_purchase }}</h5>
+
+</div>
+
+{% endblock %}

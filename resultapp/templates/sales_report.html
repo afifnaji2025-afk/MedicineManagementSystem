@@ -1,0 +1,31 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Sales Report</h3>
+
+    <table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Invoice</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Total Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sale in sales %}
+        <tr>
+            <td>{{ sale.invoice_no }}</td>
+            <td>{{ sale.created_at }}</td>
+            <td>{{ sale.customer_name }}</td>
+            <td>{{ sale.total_amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    <h5>Total Sales: {{ total_sales }}</h5>
+</div>
+
+{% endblock %}

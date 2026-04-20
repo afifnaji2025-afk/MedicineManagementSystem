@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h4>Pharmacy Settings</h4>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <label>Pharmacy Name</label>
+                <input type="text" name="pharmacy_name" class="form-control"
+                    value="{{ settings.pharmacy_name }}">
+            </div>
+
+            <div class="col-md-6">
+                <label>Owner Name</label>
+                <input type="text" name="owner_name" class="form-control"
+                    value="{{ settings.owner_name }}">
+            </div>
+
+            <div class="col-md-6 mt-2">
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control"
+                    value="{{ settings.phone }}">
+            </div>
+
+            <div class="col-md-6 mt-2">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control"
+                    value="{{ settings.email }}">
+            </div>
+
+            <div class="col-md-12 mt-2">
+                <label>Address</label>
+                <textarea name="address" class="form-control">{{ settings.address }}</textarea>
+            </div>
+
+            <div class="col-md-4 mt-3">
+                <label>Tax (%)</label>
+                <input type="number" step="0.01" name="tax" class="form-control"
+                    value="{{ settings.tax_percentage }}">
+            </div>
+
+            <div class="col-md-4 mt-3">
+                <label>Discount (%)</label>
+                <input type="number" step="0.01" name="discount" class="form-control"
+                    value="{{ settings.discount_percentage }}">
+            </div>
+
+            <div class="col-md-4 mt-3">
+                <label>Currency</label>
+                <input type="text" name="currency" class="form-control"
+                    value="{{ settings.currency }}">
+            </div>
+
+            <div class="col-md-6 mt-3">
+                <label>Logo</label>
+                <input type="file" name="logo" class="form-control">
+            </div>
+
+            {% if settings.logo %}
+            <div class="col-md-6 mt-3">
+                <img src="{{ settings.logo.url }}" width="100">
+            </div>
+            {% endif %}
+
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save Settings</button>
+
+    </form>
+</div>
+
+{% endblock %}

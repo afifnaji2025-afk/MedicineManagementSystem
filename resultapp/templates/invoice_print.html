@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Invoice</title>
+
+    <style>
+        body {
+            font-family: monospace;
+        }
+
+        .receipt {
+            width: 300px;
+            margin: auto;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            font-size: 14px;
+            border-collapse: collapse;
+        }
+
+        th {
+            border-bottom: 1px dashed black;
+            padding: 4px 0;
+        }
+
+        td {
+            padding: 3px 0;
+        }
+
+        .item {
+            text-align: left;
+            width: 50%;
+        }
+
+        .price {
+            text-align: right;
+            width: 15%;
+        }
+
+        .qty {
+            text-align: center;
+            width: 10%;
+        }
+
+        .total {
+            text-align: right;
+            width: 25%;
+        }
+
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="receipt">
+
+        <h3 class="center">New Central Pharmacy</h3>
+
+        <p class="center">
+            Mymensingh
+        </p>
+
+        <hr>
+
+        <p>
+            Invoice : {{ sale.invoice_no }} <br>
+            Customer : {{ sale.customer_name }} <br>
+            Date : {{ sale.created_at|date:"d M Y h:i A" }}
+        </p>
+
+        <hr>
+
+        <table>
+            <tr>
+                <th style="width:5%;">#</th>
+                <th class="item" style="width:45%;">Sale Item</th>
+                <th class="price" style="width:15%;">Price</th>
+                <th class="qty" style="width:10%;">Qty</th>
+                <th class="total" style="width:25%;">Total</th>
+            </tr>
+
+            {% for i in items %}
+            <tr>
+                <td style="text-align:center;">{{ forloop.counter }}</td>
+                <td class="item">{{ i.medicine.medicine_name }}</td>
+                <td class="price">{{ i.price }}</td>
+                <td class="qty">{{ i.quantity }}</td>
+                <td class="total">{{ i.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <hr>
+
+        <h4 style="text-align:right">
+            Total : {{ sale.total_amount }} Tk
+        </h4>
+
+        <p>Pay Type : Cash</p>
+
+        <button onclick="window.print()">Print Receipt</button>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-3">Sales & Billing</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Customer Name</label>
+            <input type="text" name="customer_name" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label>Search Medicine</label>
+            <select id="medicine_select" class="form-control">
+                <option value="">Select Medicine</option>
+                {% for med in medicines %}
+                    <option value="{{ med.id }}">{{ med.medicine_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <table class="table table-bordered" id="sale_table">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Batch</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Qty</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success">Complete Sale</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let medicinesData = {
+        {% for med in medicines %}
+            "{{ med.id }}": {
+                name: "{{ med.medicine_name }}",
+                batches: [
+                    {% for batch in med.valid_batches %}
+                    {
+                        id: "{{ batch.id }}",
+                        batch_no: "{{ batch.batch_no }}",
+                        price: "{{ batch.sell_price }}",
+                        stock: "{{ batch.quantity }}"
+                    },
+                    {% endfor %}
+                ]
+            },
+        {% endfor %}
+    };
+
+    $(document).ready(function() {
+        $('#medicine_select').change(function() {
+            let medId = $(this).val();
+            if (!medId) return;
+
+            let med = medicinesData[medId];
+
+            let batchOptions = '';
+            med.batches.forEach(batch => {
+                batchOptions += `<option value="${batch.id}" data-price="${batch.price}" data-stock="${batch.stock}">
+                    ${batch.batch_no}
+                </option>`;
+            });
+
+            let row = `
+                <tr>
+                    <td>
+                        ${med.name}
+                        <input type="hidden" name="medicine_id[]" value="${medId}">
+                    </td>
+                    <td>
+                        <select name="batch_id[]" class="form-control batch-select">
+                            ${batchOptions}
+                        </select>
+                    </td>
+                    <td class="price-cell">${med.batches[0]?.price || 0}</td>
+                    <td class="stock-cell">${med.batches[0]?.stock || 0}</td>
+                    <td>
+                        <input type="number" name="qty[]" class="form-control" min="1">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove-row">Remove</button>
+                    </td>
+                </tr>
+            `;
+
+            $('#sale_table tbody').append(row);
+        });
+
+        $(document).on('change', '.batch-select', function() {
+            let selected = $(this).find(':selected');
+            let price = selected.data('price');
+            let stock = selected.data('stock');
+
+            let row = $(this).closest('tr');
+            row.find('.price-cell').text(price);
+            row.find('.stock-cell').text(stock);
+        });
+
+        $(document).on('click', '.remove-row', function() {
+            $(this).closest('tr').remove();
+        });
+    });
+</script>
+
+{% endblock %}

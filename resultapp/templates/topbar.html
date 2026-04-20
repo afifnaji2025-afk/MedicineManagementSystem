@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fas fa-pills me-1" style="color: #00ff51;"></i>PHARMACY</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#abc">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="abc">
+            <ul class="navbar-nav  gap-2 mt-2 mt-lg-0">
+                <li class="nav-item">
+                 <a class="btn btn-outline-warning w-100 " href="{% url 'admin-dashboard' %}">
+                    <i class="fas fa-home"></i>Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger w-100" href="{% url 'admin_logout' %}">
+                        <i class="fas fa-sign-out-alt"></i>Logout</a>
+                </li>
+                
+            </ul>
+
+        </div>
+    </div>
+</nav>

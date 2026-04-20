@@ -1,0 +1,31 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Stock Report</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Batch</th>
+                <th>Quantity</th>
+                <th>Expiry</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for batch in batches %}
+            <tr>
+                <td>{{ batch.medicine.medicine_name }}</td>
+                <td>{{ batch.batch_no }}</td>
+                <td>{{ batch.quantity }}</td>
+                <td>{{ batch.expiry_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h5>Total Stock: {{ total_stock }}</h5>
+</div>
+
+{% endblock %}

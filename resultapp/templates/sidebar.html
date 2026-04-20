@@ -1,0 +1,271 @@
+{% load static %}
+<style>
+    .sidebar {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #0d6efd, #084298);
+    }
+
+    .sidebar .nav-link {
+        color: #ffffff;
+        font-size: 14px;
+        padding: 10px 15px;
+        border-radius: 6px;
+        transition: 0.3s;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #ffc107;
+    }
+
+    .sidebar .submenu {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+    }
+
+    .sidebar .submenu .nav-link {
+        font-size: 13px;
+        padding-left: 30px;
+    }
+</style>
+
+<nav class="col-md-3 col-lg-2 d-md-block sidebar collapse pt-3">
+
+    
+    <div class="text-center text-white mb-4">
+        <img src="{% static 'PMS-IMAGE/logo.png' %}" class="img-fluid rounded-circle mb-2"
+            style="width:80px;height:80px;">
+
+        <h6 class="mb-0">GreenCare Pharmacy</h6>
+        <small class="text-light">Management System</small>
+    </div>
+
+    <ul class="nav flex-column">
+
+        <!-- Dashboard -->
+        <li class="nav-item">
+            <a href="{% url 'admin-dashboard' %}" class="nav-link">
+                <i class="fas fa-home me-2"></i> Dashboard
+            </a>
+        </li>
+
+        <!-- Medicine Management -->
+        <li class="nav-item">
+            <a href="#medicineMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-pills me-2"></i> Medicines
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="medicineMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'add_medicine' %}" class="nav-link">Add Medicine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'manage_medicine' %}" class="nav-link">Manage Medicines</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'expired_medicine' %}" class="nav-link">Expired Medicines</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+        <li class="nav-item">
+            <a href="#supplierMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-truck me-2"></i> Suppliers
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="supplierMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'add_supplier' %}" class="nav-link">Add Supplier</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'manage_supplier' %}" class="nav-link">Manage Suppliers</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+        <li class="nav-item">
+            <a href="#purchaseMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-shopping-cart me-2"></i> Purchases
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="purchaseMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'new_purchase' %}" class="nav-link">New Purchase</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'purchase_history' %}" class="nav-link">Purchase History</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+        <!-- Stock Management -->
+        <li class="nav-item">
+            <a href="#stockMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-boxes me-2"></i> Stock
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+
+            <div id="stockMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+
+                    <li class="nav-item">
+                        <a href="{% url 'batch_list' %}" class="nav-link">
+                            Batch List
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+
+        <!-- Sales & Billing -->
+        <li class="nav-item">
+            <a href="#salesMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-cash-register me-2"></i> Sales & Billing
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="salesMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'new_sale' %}" class="nav-link">New Sale</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'sales_history' %}" class="nav-link">Sales History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            Invoice List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+
+        <li class="nav-item">
+            <a href="#customerMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-users me-2"></i> Customers
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="customerMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'add_customer' %}" class="nav-link">Add Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'manage_customer' %}" class="nav-link">Manage Customers</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+        <li class="nav-item">
+            <a href="#reportMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-chart-line me-2"></i> Reports
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="reportMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="{% url 'sales_report' %}" class="nav-link">Sales Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'stock_report' %}" class="nav-link">Stock Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'purchase_report' %}" class="nav-link">Purchase Report</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+
+        <li class="nav-item">
+            <a href="#userMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-user-cog me-2"></i> User Management
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+            <div id="userMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Add User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Manage Users</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+
+        <li class="nav-item">
+            <a href="#settingsMenu" data-bs-toggle="collapse" class="nav-link">
+                <i class="fas fa-cogs me-2"></i> Settings
+                <i class="fas fa-chevron-down float-end"></i>
+            </a>
+
+            <div id="settingsMenu" class="collapse submenu">
+                <ul class="nav flex-column">
+
+                    <!-- General -->
+                    <li class="nav-item">
+                        <a href="{%url 'pharmacy_settings' %}" class="nav-link">
+                            <i class="fas fa-clinic-medical me-2"></i> Pharmacy Profile
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-file-invoice me-2"></i> Invoice Settings
+                        </a>
+                    </li>
+
+                    <!-- Security -->
+                    <li class="nav-item">
+                        <a href="{% url 'change_password' %}" class="nav-link">
+                            <i class="fas fa-key me-2"></i> Change Password
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-user-shield me-2"></i> User Roles
+                        </a>
+                    </li>
+
+                    <!-- System -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-database me-2"></i> Backup & Restore
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+
+
+
+    </ul>
+</nav>

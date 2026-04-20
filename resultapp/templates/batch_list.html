@@ -1,0 +1,55 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-3">
+        <i class="fas fa-boxes text-black"></i> Batch List (Stock)
+    </h3>
+
+    <div class="table-responsive card shadow p-4">
+        <table class="table table-bordered table-hover text-nowrap">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Medicine</th>
+                    <th>Batch No</th>
+                    <th>Quantity</th>
+                    <th>Mfg. Date</th>
+                    <th>Exp. Date</th>
+                    <th>Buy Price</th>
+                    <th>Sell Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in batches %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ b.medicine.medicine_name }}</td>
+                    <td>{{ b.batch_no }}</td>
+                    <td>{{ b.quantity }}</td>
+                    <td>{{ b.manufacture_date|date:"d-M-Y" }}</td>
+                    <td>{{ b.expiry_date|date:"d-M-Y" }}</td>
+                    <td>{{ b.buy_price }}</td>
+                    <td>{{ b.sell_price }}</td>
+                    <td>
+                        {% if b.expiry_date < today %} <span class="badge bg-danger">Expired</span>
+                            {% elif b.status %}
+                            <span class="badge bg-success">Active</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                            {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center">No batches found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

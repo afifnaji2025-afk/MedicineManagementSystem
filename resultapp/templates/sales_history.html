@@ -1,0 +1,47 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Sales History</h3>
+
+    <table class="table table-bordered">
+
+        <tr>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+
+        {% for s in sales %}
+
+        <tr>
+
+            <td>{{ s.invoice_no }}</td>
+
+            <td>{{ s.customer_name }}</td>
+
+            <td>{{ s.total_amount }}</td>
+
+            <td>{{ s.created_at }}</td>
+
+            <td>
+
+                <a href="{% url 'invoice_print' s.id %}" class="btn btn-success btn-sm">
+                    Print
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}
