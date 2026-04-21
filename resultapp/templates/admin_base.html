@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,24 +14,139 @@
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <style>
+        /* ── NIGHT MODE VARIABLES ── */
+        body.night-mode {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+
+        body.night-mode main {
+            background-color: #121212;
+        }
+
+        /* Cards */
+        body.night-mode .box-style,
+        body.night-mode .card {
+            background-color: #1e1e1e !important;
+            color: #e0e0e0 !important;
+            border-color: #333 !important;
+        }
+
+        /* Tables */
+        body.night-mode table {
+            color: #e0e0e0 !important;
+        }
+
+        body.night-mode .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+        }
+
+        body.night-mode .table-striped > tbody > tr:nth-of-type(even) {
+            background-color: #1e1e1e !important;
+        }
+
+        body.night-mode thead {
+            background-color: #2a2a2a !important;
+            color: #ffc107 !important;
+        }
+
+        /* Inputs & Selects */
+        body.night-mode input,
+        body.night-mode select,
+        body.night-mode textarea {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+            border-color: #444 !important;
+        }
+
+        /* Sidebar */
+        body.night-mode .sidebar {
+            background: linear-gradient(180deg, #1a1a2e, #16213e) !important;
+        }
+
+        /* Navbar */
+        body.night-mode .navbar {
+            background-color: #1a1a1a !important;
+        }
+
+        /* Welcome Banner */
+        body.night-mode .welcome-banner {
+            background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+        }
+
+        /* Alerts */
+        body.night-mode .alert {
+            background-color: #2a2a2a !important;
+            color: #e0e0e0 !important;
+            border-color: #444 !important;
+        }
+
+        /* Dropdown menus */
+        body.night-mode .dropdown-menu {
+            background-color: #1e1e1e !important;
+            border-color: #444 !important;
+        }
+
+        body.night-mode .dropdown-item {
+            color: #e0e0e0 !important;
+        }
+
+        body.night-mode .dropdown-item:hover {
+            background-color: #2a2a2a !important;
+        }
+
+        /* Night mode button active state */
+        body.night-mode #nightModeBtn {
+            background-color: #ffc107;
+            color: #000;
+            border-color: #ffc107;
+        }
+    </style>
 </head>
 
 <body>
     {% include 'topbar.html' %}
 
     <div class="container-fluid">
-
         <div class="row">
             {% include 'sidebar.html' %}
 
-        <main class="col-md-9 col-mb-9 ms-sm-auto px-md-4">
-            {% block content %}
-            This is admin dashboard
-            {% endblock %}
-        </main>
+            <main class="col-md-9 col-mb-9 ms-sm-auto px-md-4 py-3">
+                {% block content %}
+                {% endblock %}
+            </main>
         </div>
     </div>
 
-</body>
+    <!-- Night Mode Script -->
+    <script>
+        // Apply saved mode immediately on page load
+        if (localStorage.getItem('nightMode') === 'true') {
+            document.body.classList.add('night-mode');
+            updateBtn(true);
+        }
 
+        function toggleNightMode() {
+            const isNight = document.body.classList.toggle('night-mode');
+            localStorage.setItem('nightMode', isNight);
+            updateBtn(isNight);
+        }
+
+        function updateBtn(isNight) {
+            const icon = document.getElementById('nightModeIcon');
+            const text = document.getElementById('nightModeText');
+            if (!icon || !text) return;
+
+            if (isNight) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Day Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Night Mode';
+            }
+        }
+    </script>
+</body>
 </html>

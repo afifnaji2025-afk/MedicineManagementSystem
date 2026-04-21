@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.db import models
+from django.contrib.auth.models import User
 
 class Medicine(models.Model):
     medicine_name = models.CharField(max_length=200)
@@ -113,3 +115,13 @@ class PharmacySettings(models.Model):
 
     def __str__(self):
         return self.pharmacy_name
+    
+
+
+class BuyerProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=15, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

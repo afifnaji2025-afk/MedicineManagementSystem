@@ -5,18 +5,25 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="abc">
-            <ul class="navbar-nav  gap-2 mt-2 mt-lg-0">
+            <ul class="navbar-nav gap-2 mt-2 mt-lg-0">
                 <li class="nav-item">
-                 <a class="btn btn-outline-warning w-100 " href="{% url 'admin-dashboard' %}">
-                    <i class="fas fa-home"></i>Dashboard</a>
+                    <a class="btn btn-outline-warning w-100" href="{% url 'admin-dashboard' %}">
+                        <i class="fas fa-home"></i> Dashboard</a>
                 </li>
+
+                <!-- Night Mode Toggle -->
+                <li class="nav-item">
+                    <button class="btn btn-outline-light w-100" id="nightModeBtn" onclick="toggleNightMode()">
+                        <i class="fas fa-moon" id="nightModeIcon"></i>
+                        <span id="nightModeText">Night Mode</span>
+                    </button>
+                </li>
+
                 <li class="nav-item">
                     <a class="btn btn-outline-danger w-100" href="{% url 'admin_logout' %}">
-                        <i class="fas fa-sign-out-alt"></i>Logout</a>
+                        <i class="fas fa-sign-out-alt"></i> Logout</a>
                 </li>
-                
             </ul>
-
         </div>
     </div>
 </nav>

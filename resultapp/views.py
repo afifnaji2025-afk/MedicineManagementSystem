@@ -5,7 +5,21 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import *
 from django.contrib.auth.decorators import login_required
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required
+from .models import BuyerProfile
+
+
 # Create your views here.
+
+def home(request):
+    return render(request, 'home.html')
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -763,3 +777,114 @@ def pharmacy_settings(request):
     return render(request, 'settings/pharmacy_settings.html', {
         'settings': settings
     })
+
+
+
+
+
+
+
+
+
+
+def employee_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Check if user is employee (staff) but not superuser
+            if user.is_staff and not user.is_superuser:
+                login(request, user)
+                return redirect('/employee-dashboard/')
+            else:
+                error = "You are not authorized as an employee."
+        else:
+            error = "Invalid credentials."
+
+        return render(request, 'employee_login.html', {'error': error})
+
+    return render(request, 'employee_login.html')
+
+
+def buyer_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Buyer = not staff, not superuser
+            if not user.is_staff and not user.is_superuser:
+                login(request, user)
+                return redirect('/buyer-dashboard/')
+            else:
+                error = "Please use the correct login portal."
+        else:
+            error = "Invalid credentials."
+
+        return render(request, 'buyer_login.html', {'error': error})
+
+    return render(request, 'buyer_login.html')
+
+
+def buyer_signup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            return render(request, 'buyer_signup.html', {'error': 'Passwords do not match.'})
+
+        if User.objects.filter(username=username).exists():
+            return render(request, 'buyer_signup.html', {'error': 'Username already taken.'})
+
+        if User.objects.filter(email=email).exists():
+            return render(request, 'buyer_signup.html', {'error': 'Email already registered.'})
+
+        # Create user (not staff, not superuser = buyer)
+        user = User.objects.create_user(username=username, email=email, password=password1)
+        BuyerProfile.objects.create(user=user, phone=phone)
+
+        return render(request, 'buyer_signup.html', {'success': 'Account created! You can now sign in.'})
+
+    return render(request, 'buyer_signup.html')
+
+
+@login_required
+def employee_dashboard(request):
+    if not request.user.is_staff or request.user.is_superuser:
+        return redirect('/employee-login/')
+    return render(request, 'employee_dashboard.html')
+
+
+@login_required
+def buyer_dashboard(request):
+    if request.user.is_staff or request.user.is_superuser:
+        return redirect('/buyer-login/')
+    return render(request, 'buyer_dashboard.html')
+
+
+
+
+def admin_login(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        return redirect('admin-dashboard')
+
+    error = None
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_superuser:
+            login(request, user)
+            return redirect('admin-dashboard')
+        else:
+            error = "Invalid credentials or not authorized as admin."
+
+    return render(request, 'admin_login.html', {'error': error})
