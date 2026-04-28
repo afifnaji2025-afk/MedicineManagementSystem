@@ -3,6 +3,9 @@ from django.utils.crypto import get_random_string
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
+
 class Medicine(models.Model):
     medicine_name = models.CharField(max_length=200)
     company_name = models.CharField(max_length=200)
@@ -96,32 +99,43 @@ class Customer(models.Model):
 
 
 
+
+
 from django.db import models
 
 class PharmacySettings(models.Model):
     pharmacy_name = models.CharField(max_length=200)
     owner_name = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)  # ✅ fixed
     address = models.TextField()
+    tax_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    currency = models.CharField(max_length=10, default='tk')
     logo = models.ImageField(upload_to='pharmacy_logo/', blank=True, null=True)
 
-    # Invoice Settings
-    tax_percentage = models.FloatField(default=0)
-    discount_percentage = models.FloatField(default=0)
-    currency = models.CharField(max_length=10, default='BDT')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
-        return self.pharmacy_name
+        return self.pharmacy_name  # ✅ আপনার লেখায় link ছিল, সেটাও ঠিক করুন
+
+
+
+
+
+class InvoiceSetting(models.Model):
+    invoice_prefix = models.CharField(max_length=20, default='INV-')
     
-
-
-class BuyerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    PAPER_SIZE_CHOICES = (
+        ('80mm', 'POS Thermal (80mm)'),
+        ('58mm', 'POS Thermal (58mm)'),
+        ('A4', 'Standard A4'),
+    )
+    paper_size = models.CharField(max_length=10, choices=PAPER_SIZE_CHOICES, default='80mm')
+    
+    terms_conditions = models.TextField(blank=True, null=True, default='Goods once sold are not returnable.')
+    footer_note = models.TextField(blank=True, null=True, default='Thank you for your business!')
+    show_discount = models.BooleanField(default=True)
+    
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return f"Invoice Settings (Prefix: {self.invoice_prefix})"    

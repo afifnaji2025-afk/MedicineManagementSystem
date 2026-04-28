@@ -1,0 +1,110 @@
+{% extends 'admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-4">
+        <i class="fas fa-user-plus text-success me-2"></i> Add New Staff/User
+    </h3>
+
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags }}{% endif %} alert-dismissible fade show">
+                {{ m }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card shadow-sm mb-5">
+        <div class="card-body p-4">
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h5 class="label form-label fw-bold mb-3 border-bottom pb-2">
+                    <i class="fas fa-lock me-2"></i>Account Information
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">Username <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="username" placeholder="e.g. rahman_77" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="confirm_password" required>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold label form-label mb-3 border-bottom pb-2 ">
+                    <i class="fas fa-address-card me-2"></i>Personal Information
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">First Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="first_name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="last_name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="phone" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Email (Optional)</label>
+                        <input type="email" class="form-control" name="email">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">Address</label>
+                        <textarea class="form-control" name="address" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="label form-data fw-bold mb-3 border-bottom pb-2">
+                    <i class="fas fa-user-shield me-2"></i>Role, Status & Media
+                </h5>
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">User Role <span class="text-danger">*</span></label>
+                        <select class="form-select" name="role" required>
+                            <option value="" disabled selected>Select Role...</option>
+                            <option value="Admin">Admin / Manager</option>
+                            <option value="Pharmacist">Pharmacist</option>
+                            <option value="Cashier">Cashier / Salesman</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Status <span class="text-danger">*</span></label>
+                        <select class="form-select" name="status" required>
+                            <option value="Active" selected>Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold">Profile Picture</label>
+                        <input type="file" class="form-control" name="profile_pic" accept="image/*">
+                    </div> -->
+                </div>
+
+                <div class="d-flex gap-2 mt-2">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-save me-1"></i> Create User
+                    </button>
+                    <a href="{% url 'manage_users' %}" class="btn btn-secondary px-4">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

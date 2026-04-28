@@ -3,13 +3,26 @@
 {% block content %}
 
 <div class="container mt-4">
+
     <h3 class="mb-3">
-        <i class="fas fa-boxes text-black"></i> Batch List (Stock)
+        <i class="fas fa-boxes text-black"></i>
+        Batch List (Stock)
     </h3>
 
-    <div class="table-responsive card shadow p-4">
-        <table class="table table-bordered table-hover text-nowrap">
-            <thead class="table-primary">
+    {% if messages %}
+        {% for m in messages %}
+            <div class="alert alert-{% if m.tags == 'error' %}danger{% else %}{{ m.tags }}{% endif %} alert-dismissible fade show">
+                {{ m }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
                 <tr>
                     <th>#</th>
                     <th>Medicine</th>
@@ -20,36 +33,76 @@
                     <th>Buy Price</th>
                     <th>Sell Price</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 {% for b in batches %}
                 <tr>
+
                     <td>{{ forloop.counter }}</td>
                     <td>{{ b.medicine.medicine_name }}</td>
                     <td>{{ b.batch_no }}</td>
                     <td>{{ b.quantity }}</td>
+
                     <td>{{ b.manufacture_date|date:"d-M-Y" }}</td>
                     <td>{{ b.expiry_date|date:"d-M-Y" }}</td>
+
                     <td>{{ b.buy_price }}</td>
                     <td>{{ b.sell_price }}</td>
+
+                    <!-- Status -->
                     <td>
-                        {% if b.expiry_date < today %} <span class="badge bg-danger">Expired</span>
-                            {% elif b.status %}
+                        {% if b.expiry_date < today %}
+                            <span class="badge bg-danger">Expired</span>
+
+                        {% elif b.status %}
                             <span class="badge bg-success">Active</span>
-                            {% else %}
+
+                        {% else %}
                             <span class="badge bg-secondary">Inactive</span>
-                            {% endif %}
+                        {% endif %}
+                    </td>
+
+                    <!-- Actions -->
+                    <td>
+
+                        <!-- Edit -->
+                        <a href="{% url 'edit_batch' b.id %}"
+                           class="btn btn-sm btn-primary me-1">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+
+                        <!-- Delete -->
+                        <a href="?delete={{ b.id }}"
+                           onclick="return confirm('Are you sure you want to delete this batch?')"
+                           class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="10" class="text-center">
+                        No batches found.
                     </td>
                 </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="9" class="text-center">No batches found.</td>
-                </tr>
+
                 {% endfor %}
+
             </tbody>
+
         </table>
+
     </div>
+
 </div>
 
 {% endblock %}
+
