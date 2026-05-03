@@ -30,12 +30,17 @@
 
                 <div class="row">
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Medicine Name</label>
                         <input type="text" name="medicine_name" class="form-control" required>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Generic Name</label>
+                        <input type="text" name="generic_name" class="form-control" placeholder="e.g. Paracetamol">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Company Name</label>
                         <input type="text" name="company_name" class="form-control" required>
                     </div>
@@ -103,82 +108,3 @@
 </div>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-{% comment %}
-
-
-<!-- {% extends 'admin_base.html' %}
-{% load static %}
-
-{% block content %}
-
-
-
-<div class="container">
- <h3 class="page-title text-center">
-    <i class="fas fa-capsules me-2"></i> Add Medicine
-</h3>
-
-
-    {% if messages %}
-        {% for m in messages %}
-            <div class="alert alert-{%if m.tags == 'error'%}danger{% else %}{{ m.tags }}{% endif %} alert-dismissible fade show" role="alert">
-                {{m}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
-
-    <form method="post">
-        {% csrf_token %}
-
-        
-        <div class="mb-3">
-            <label for="medicine_name" class="form-label">Medicine Name</label>
-            <input type="text" class="form-control" id="medicine_name" name="medicine_name" required placeholder="Enter medicine name">
-        </div>
-
-        
-        <div class="mb-3">
-            <label for="company_name" class="form-label">Company Name</label>
-            <input type="text" class="form-control" id="company_name" name="company_name" required placeholder="Enter company name">
-        </div>
-
-        
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" class="form-control" id="price" name="price" step="0.01" required placeholder="Enter price">
-        </div>
-
-        
-        <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" required placeholder="Enter quantity">
-        </div>
-
-         
-
-        <div class="mb-3">
-            <label for="expiry_date" class="form-label">Expiry Date</label>
-            <input type="date" class="form-control" id="expiry_date" name="expiry_date" required>
-        </div>
-
-        <button type="submit" class="btn btn-success w-100 py-1 fs-7">
-            Add Medicine
-        </button>
-
-    </form>
-</div>
-
-{% endblock %} -->
-
-{% endcomment %}

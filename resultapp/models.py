@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 class Medicine(models.Model):
     medicine_name = models.CharField(max_length=200)
+    generic_name = models.CharField(max_length=200, blank=True, null=True)
     company_name = models.CharField(max_length=200)
     created_date = models.DateTimeField(auto_now_add=True)
 
@@ -100,7 +101,6 @@ class Customer(models.Model):
 
 
 
-
 from django.db import models
 
 class PharmacySettings(models.Model):
@@ -116,7 +116,6 @@ class PharmacySettings(models.Model):
 
     def __str__(self):
         return self.pharmacy_name  # ✅ আপনার লেখায় link ছিল, সেটাও ঠিক করুন
-
 
 
 
@@ -138,4 +137,4 @@ class InvoiceSetting(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Invoice Settings (Prefix: {self.invoice_prefix})"    
+        return f"Invoice Settings (Prefix: {self.invoice_prefix})"

@@ -233,6 +233,7 @@ def add_medicine(request):
     if request.method == "POST":
         try:
             medicine_name = request.POST.get("medicine_name")
+            generic_name = request.POST.get("generic_name")
             company_name = request.POST.get("company_name")
             batch_no = request.POST.get("batch_no")
             manufacture_date = request.POST.get("manufacture_date")
@@ -247,8 +248,14 @@ def add_medicine(request):
 
             medicine, created = Medicine.objects.get_or_create(
                 medicine_name=medicine_name,
-                company_name=company_name
+                company_name=company_name,
+                defaults={"generic_name": generic_name}
             )
+
+            # If medicine already existed but generic name was empty, update it
+            if not created and generic_name and not medicine.generic_name:
+                medicine.generic_name = generic_name
+                medicine.save()
 
             Batch.objects.create(
                 medicine=medicine,
@@ -269,7 +276,6 @@ def add_medicine(request):
         return redirect("add_medicine")
 
     return render(request, "add_medicine.html")
-
 
 @login_required
 def manage_medicine(request):
@@ -295,6 +301,7 @@ def edit_medicine(request, add_id):
 
     if request.method == "POST":
         medicine.medicine_name = request.POST.get("medicine_name")
+        medicine.generic_name = request.POST.get("generic_name")
         medicine.company_name = request.POST.get("company_name")
         medicine.save()
         messages.success(request, "Medicine updated successfully.")

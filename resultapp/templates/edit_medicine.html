@@ -30,14 +30,19 @@
 
                 <div class="row">
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Medicine Name</label>
-                        <input type="text" name="medicine_name"value="{{ medicine.medicine_name }}"class="form-control" required>
+                        <input type="text" name="medicine_name" value="{{ medicine.medicine_name }}" class="form-control" required>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Generic Name</label>
+                        <input type="text" name="generic_name" value="{{ medicine.generic_name|default_if_none:'' }}" class="form-control" placeholder="e.g. Paracetamol">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
                         <label class="form-label">Company Name</label>
-                        <input type="text" name="company_name"value="{{ medicine.company_name }}"class="form-control" required>
+                        <input type="text" name="company_name" value="{{ medicine.company_name }}" class="form-control" required>
                     </div>
 
                 </div>

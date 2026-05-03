@@ -25,15 +25,21 @@
         <div class="card-body">
 
             <div class="row">
+
                 <div class="col-md-6">
-
                     <label class="form-label fw-bold">
-                        Search Medicine
+                        Search by Medicine Name
                     </label>
-
                     <input type="text" id="medicineSearch" class="form-control" placeholder="Type medicine name...">
-
                 </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">
+                        Search by Generic Name
+                    </label>
+                    <input type="text" id="genericSearch" class="form-control" placeholder="Type generic name...">
+                </div>
+
             </div>
 
         </div>
@@ -48,6 +54,7 @@
                 <tr>
                     <th>S.No</th>
                     <th>Medicine Name</th>
+                    <th>Generic Name</th>
                     <th>Company Name</th>
                     <th>Total Batches</th>
                     <th>Total Stock</th>
@@ -65,6 +72,10 @@
 
                     <td class="medicine-name">
                         <strong>{{ m.medicine_name }}</strong>
+                    </td>
+
+                    <td class="generic-name">
+                        {{ m.generic_name|default:"—" }}
                     </td>
 
                     <td class="company-name">
@@ -97,7 +108,7 @@
                 {% empty %}
 
                 <tr>
-                    <td colspan="7" class="text-center">
+                    <td colspan="8" class="text-center">
                         No medicines available.
                     </td>
                 </tr>
@@ -115,23 +126,30 @@
 <!-- Search Script -->
 <script>
 
-    const searchInput = document.getElementById('medicineSearch');
+    const medicineSearch = document.getElementById('medicineSearch');
+    const genericSearch = document.getElementById('genericSearch');
     const table = document.getElementById('medicineTable');
     const rows = table.getElementsByTagName('tr');
 
-    searchInput.addEventListener('keyup', function () {
+    function filterTable() {
 
-        let filter = searchInput.value.toLowerCase();
+        let medFilter = medicineSearch.value.toLowerCase();
+        let genFilter = genericSearch.value.toLowerCase();
 
         for (let i = 1; i < rows.length; i++) {
 
             let medicineCell = rows[i].getElementsByClassName('medicine-name')[0];
+            let genericCell = rows[i].getElementsByClassName('generic-name')[0];
 
-            if (medicineCell) {
+            if (medicineCell && genericCell) {
 
                 let medicineText = medicineCell.textContent.toLowerCase();
+                let genericText = genericCell.textContent.toLowerCase();
 
-                if (medicineText.includes(filter)) {
+                let medMatch = medicineText.includes(medFilter);
+                let genMatch = genericText.includes(genFilter);
+
+                if (medMatch && genMatch) {
                     rows[i].style.display = "";
                 }
                 else {
@@ -139,7 +157,10 @@
                 }
             }
         }
-    });
+    }
+
+    medicineSearch.addEventListener('keyup', filterTable);
+    genericSearch.addEventListener('keyup', filterTable);
 
 </script>
 
